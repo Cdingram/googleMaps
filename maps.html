@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+	// my location
+	var myCenter=new google.maps.LatLng(53.5444,-113.4909);
+
+	// map
+	function initialize() {
+
+		
+
+		var mapProp = {
+			center:myCenter,
+			zoom:10,
+			mapTypeId:google.maps.MapTypeId.ROADMAP
+		};
+
+		var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+		// marker
+		var marker=new google.maps.Marker({
+			position:myCenter,
+			// bounce animation
+			//animation:google.maps.Animation.BOUNCE
+
+			// icon
+			//icon:'drop.png'
+		});
+
+		//set marker on map
+		marker.setMap(map);
+
+		// info window
+		var infowindow = new google.maps.InfoWindow({
+			content:"Info"
+		});
+		// open window on click
+		google.maps.event.addDomListener(marker, 'click', function() {
+			infowindow.open(map, marker);
+		});
+
+		// zoom to 20 when clicking marker
+		google.maps.event.addDomListener(marker, 'click', function() {
+			map.setZoom(15);
+			map.setCenter(marker.getPosition());
+		});
+
+		// go back to marker after 3 sec
+		google.maps.event.addDomListener(map, 'center_changed', function() {
+			window.setTimeout(function() {
+				map.panTo(marker.getPosition());
+			}, 10000);
+		});
+	}
+	// add map on load
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+	
+
+
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+</body>
+
+</html>
